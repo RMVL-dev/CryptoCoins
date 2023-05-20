@@ -14,43 +14,43 @@ data class CoinModel(
     @SerialName("image")
     val imageUrl:String?,
     @SerialName("current_price")
-    val currentPrice:Int?,
+    val currentPrice:Double?,
     @SerialName("market_cap")
-    val marketCap:Int?,
+    val marketCap:Long?,
     @SerialName("market_cap_rank")
     val marketCapRank:Int?,
     @SerialName("fully_diluted_valuation")
-    val fullyDilutedValuation:Int?,
+    val fullyDilutedValuation:Double?,
     @SerialName("total_volume")
-    val totalVolume:Int?,
+    val totalVolume:Double,
     @SerialName("high_24h")
-    val high24h:Int?,
+    val high24h:Double?,
     @SerialName("low_24h")
-    val low24h:Int?,
+    val low24h:Double?,
     @SerialName("price_change_24h")
-    val priceChange24h:Float?,
+    val priceChange24h:Double?,
     @SerialName("price_change_percentage_24h")
-    val priceChangePercentage24h:Float?,
+    val priceChangePercentage24h:Double?,
     @SerialName("market_cap_change_24h")
-    val marketCapChange24h:Int?,
+    val marketCapChange24h:Double?,
     @SerialName("market_cap_change_percentage_24h")
-    val marketCapChangePercentage24h:Float?,
+    val marketCapChangePercentage24h:Double?,
     @SerialName("circulating_supply")
-    val circulatingSupply:Int?,
+    val circulatingSupply:Double?,
     @SerialName("total_supply")
-    val totalSupply:Int?,
+    val totalSupply:Double?,
     @SerialName("max_supply")
-    val maxSupply:Int?,
+    val maxSupply:Double?,
     @SerialName("ath")
-    val ath:Int?,
+    val ath:Double?,
     @SerialName("ath_change_percentage")
-    val athChangePercentage:Float?,
+    val athChangePercentage:Double?,
     @SerialName("ath_date")
     val ath_date:String?,
     @SerialName("atl")
-    val atl:Float?,
+    val atl:Double?,
     @SerialName("atl_change_percentage")
-    val atlChangePercentage:Float?,
+    val atlChangePercentage:Double?,
     @SerialName("atl_date")
     val atlDate:String?,
     @SerialName("roi")

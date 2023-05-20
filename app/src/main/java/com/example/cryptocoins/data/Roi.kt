@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Roi(
     @SerialName("times")
-    val times: Float,
+    val times: Float? = null,
     @SerialName("currency")
-    val currency: String,
+    val currency: String? = null,
     @SerialName("percentage")
-    val percentage: Float,
+    val percentage: Float? = null,
 )

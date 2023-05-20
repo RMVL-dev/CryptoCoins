@@ -21,7 +21,9 @@ class CoinsViewModel(val coinsRepository: CoinsRepository):ViewModel() {
     var coinsUIState:CoinsState by mutableStateOf(CoinsState.Loading)
         private set
 
-
+    init {
+        getCoinsList("usd")
+    }
 
     fun getCoinsList(currency: String){
 

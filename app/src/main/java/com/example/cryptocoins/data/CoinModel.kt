@@ -22,7 +22,7 @@ data class CoinModel(
     @SerialName("fully_diluted_valuation")
     val fullyDilutedValuation:Double?,
     @SerialName("total_volume")
-    val totalVolume:Double,
+    val totalVolume:Double?,
     @SerialName("high_24h")
     val high24h:Double?,
     @SerialName("low_24h")

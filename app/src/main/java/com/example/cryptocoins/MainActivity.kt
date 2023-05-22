@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.cryptocoins.ui.screens.CryptoCoinsApp
+import com.example.cryptocoins.ui.screens.TopBar
 import com.example.cryptocoins.ui.theme.CryptoCoinsTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    CryptoCoinsApp()
                 }
             }
         }

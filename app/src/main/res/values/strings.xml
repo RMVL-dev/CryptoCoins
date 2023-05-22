@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Crypto coins</string>
+    <string name="error">Случилась какая-то ошибка :(</string>
+    <string name="t_try_again">Попробуем снова?</string>
+    <string name="try_again">Попробовать</string>
+    <string name="list_crypto_coins">Список криптовалют</string>
 </resources>

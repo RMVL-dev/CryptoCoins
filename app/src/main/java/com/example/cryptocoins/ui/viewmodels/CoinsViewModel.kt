@@ -21,12 +21,19 @@ class CoinsViewModel(val coinsRepository: CoinsRepository):ViewModel() {
     var coinsUIState:CoinsState by mutableStateOf(CoinsState.Loading)
         private set
 
+    var chipState by mutableStateOf(true)
+        private set
     init {
+        chipState = true
         getCoinsList("usd")
     }
 
     fun getCoinsList(currency: String){
-
+        chipState = when(currency){
+            "usd" -> true
+            "eur" -> false
+            else -> {true}
+        }
         viewModelScope.launch {
             coinsUIState = try {
                 CoinsState.Success(

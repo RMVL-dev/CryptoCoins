@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.cryptocoins.AppViewModelProvider
 import com.example.cryptocoins.data.CoinModel
 import com.example.cryptocoins.ui.viewmodels.CoinsViewModel
 import com.example.cryptocoins.ui.viewmodels.interfaces.CoinsState
@@ -32,34 +33,51 @@ fun CryptoCoinsApp(
     modifier:Modifier = Modifier
 ){
     val coinsViewModel:CoinsViewModel = viewModel(
-        factory = CoinsViewModel.Factory
+        factory = AppViewModelProvider.Factory
     )
 
-Scaffold(
-    topBar = {
-        TopBar(
-            viewModel = coinsViewModel
-        )
-    }
-)
-{ it ->
-    when (coinsViewModel.coinsUIState) {
-        is CoinsState.Success -> {
-            CoinsList(
-                coinsList = (coinsViewModel.coinsUIState as CoinsState.Success).coinsList,
-                contentPadding = it
+    Scaffold(
+        topBar = {
+            TopBar(
+                viewModel = coinsViewModel
             )
         }
-        is CoinsState.Error -> {
-            ErrorScreen(
-                onClickTryAgain = {coinsViewModel.getCoinsList("usd")}
-            )
-        }
-        is CoinsState.Loading ->{
+    )
+    { it ->
+        if (coinsViewModel.isShowingMain) {
+            when (coinsViewModel.coinsUIState) {
+                is CoinsState.Success -> {
+                    CoinsList(
+                        coinsList = (coinsViewModel.coinsUIState as CoinsState.Success).coinsList,
+                        contentPadding = it,
+                        onCardClick = { coin: CoinModel ->
+                            coinsViewModel.updateCurrentCoin(coin = coin)
+                            coinsViewModel.onCardClicked()
+                        }
+                    )
+                }
 
+                is CoinsState.Error -> {
+                    ErrorScreen(
+                        onClickTryAgain = { coinsViewModel.getCoinsList("usd") }
+                    )
+                }
+
+                is CoinsState.Loading -> {
+
+                }
+            }
+        }else{
+            coinsViewModel.currentCoin.id?.let { id ->
+                coinsViewModel.currentCoin.imageUrl?.let { it1 ->
+                    CoinInfo(
+                        id = id,
+                        imageUrl = it1
+                    )
+                }
+            }
         }
     }
-}
 
 }
 
@@ -68,7 +86,8 @@ Scaffold(
 fun CoinsList(
     modifier: Modifier = Modifier,
     coinsList: List<CoinModel>,
-    contentPadding: PaddingValues
+    contentPadding: PaddingValues,
+    onCardClick: (CoinModel) -> Unit
 ){
     LazyColumn(
         modifier = modifier,
@@ -77,7 +96,10 @@ fun CoinsList(
         items(coinsList){
             CoinCard(
                 coin = it,
-                modifier = Modifier.padding(3.dp)
+                modifier = Modifier.padding(3.dp),
+                onCardClick = {
+                    onCardClick(coin)
+                }
             )
         }
     }
@@ -85,14 +107,19 @@ fun CoinsList(
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoinCard(
     modifier: Modifier = Modifier,
-    coin:CoinModel
+    coin:CoinModel,
+    onCardClick:()->Unit
 ){
     Card(modifier = modifier
         .fillMaxWidth()
-        .height(56.dp)
+        .height(56.dp),
+        onClick = {
+            onCardClick()
+        }
     ) {
         Row(modifier = Modifier.padding(6.dp)) {
 
@@ -144,32 +171,15 @@ val coin = CoinModel(
     symbol = "BTC",
     currentPrice = 28000.0,
     priceChangePercentage24h = -0.7,
-    id = null,
-    marketCap = null,
-    ath = null,
-    ath_date = null,
-    atl = null,
-    athChangePercentage = null,
-    atlChangePercentage = null,
-    atlDate = null,
-    circulatingSupply = null,
-    fullyDilutedValuation = null,
-    last_updated = null,
-    marketCapChange24h = null,
-    marketCapChangePercentage24h = null,
-    marketCapRank = null,
-    maxSupply = null,
-    priceChange24h = null,
-    totalSupply = null,
-    roi = null,
-    high24h = null,
-    low24h = null,
-    totalVolume = null
+    id = null
 )
 
 @Preview
 @Composable
 fun cardPreview(){
-    CoinCard(coin = coin)
+    CoinCard(
+        coin = coin,
+        onCardClick = {}
+    )
 }
 

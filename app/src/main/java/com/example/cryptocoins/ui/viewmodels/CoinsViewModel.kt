@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.cryptocoins.CoinsApplication
+import com.example.cryptocoins.data.CoinModel
 import com.example.cryptocoins.repository.interfaces.CoinsRepository
 import com.example.cryptocoins.ui.viewmodels.interfaces.CoinsState
 import kotlinx.coroutines.launch
@@ -23,10 +24,33 @@ class CoinsViewModel(val coinsRepository: CoinsRepository):ViewModel() {
 
     var chipState by mutableStateOf(true)
         private set
+
+    var isShowingMain by mutableStateOf(true)
+        private set
+
+    var currentCoin: CoinModel by mutableStateOf(
+        CoinModel(
+            id = "bitcoin",
+            symbol = "btc",
+            name = "Bitcoin",
+            imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+            currentPrice = null,
+            priceChangePercentage24h = null
+        )
+    )
+       private set
+
+    fun updateCurrentCoin(coin:CoinModel){
+        currentCoin = coin
+    }
+    fun onCardClicked(){
+        isShowingMain = !isShowingMain
+    }
     init {
         chipState = true
         getCoinsList("usd")
     }
+
 
     fun getCoinsList(currency: String){
         chipState = when(currency){
@@ -47,19 +71,6 @@ class CoinsViewModel(val coinsRepository: CoinsRepository):ViewModel() {
         }
 
     }
-
-
-
-    companion object{
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as CoinsApplication)
-                val coinsRepository = application.container.coinsRepository
-                CoinsViewModel(coinsRepository = coinsRepository)
-            }
-        }
-    }
-
 
 
 }

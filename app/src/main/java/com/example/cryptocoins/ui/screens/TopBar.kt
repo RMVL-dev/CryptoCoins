@@ -52,14 +52,20 @@ fun TopBar(
             ) {
                 FilterChip(
                     selected = viewModel.chipState,
-                    onClick = { viewModel.getCoinsList("usd") },
+                    onClick = {
+                        viewModel.getCoinsList("usd")
+                        viewModel.onCardClicked()
+                              },
                     modifier = Modifier.padding(5.dp),
                     colors = colors,
                     label = { Text(text = "USD") }
                 )
                 FilterChip(
                     selected = !viewModel.chipState,
-                    onClick = { viewModel.getCoinsList("eur") },
+                    onClick = {
+                        viewModel.getCoinsList("eur")
+                        viewModel.onCardClicked()
+                              },
                     modifier = Modifier.padding(5.dp),
                     colors = colors,
                     label = { Text(text = "EUR") }

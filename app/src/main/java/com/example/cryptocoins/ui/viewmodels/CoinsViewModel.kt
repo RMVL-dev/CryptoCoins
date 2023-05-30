@@ -1,5 +1,6 @@
 package com.example.cryptocoins.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -28,7 +29,7 @@ class CoinsViewModel(val coinsRepository: CoinsRepository):ViewModel() {
     var isShowingMain by mutableStateOf(true)
         private set
 
-    var currentCoin: CoinModel by mutableStateOf(
+    var currentCoin by mutableStateOf(
         CoinModel(
             id = "bitcoin",
             symbol = "btc",
@@ -42,6 +43,7 @@ class CoinsViewModel(val coinsRepository: CoinsRepository):ViewModel() {
 
     fun updateCurrentCoin(coin:CoinModel){
         currentCoin = coin
+        Log.d("Log", "${currentCoin.id}")
     }
     fun onCardClicked(){
         isShowingMain = !isShowingMain

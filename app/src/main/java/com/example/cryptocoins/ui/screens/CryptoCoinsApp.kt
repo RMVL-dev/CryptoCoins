@@ -29,13 +29,11 @@ import com.example.cryptocoins.ui.viewmodels.interfaces.CoinsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CryptoCoinsApp(
-    modifier:Modifier = Modifier
+fun CryptoCoinsMainScreen(
+    modifier:Modifier = Modifier,
+    coinsViewModel: CoinsViewModel,
+    navigateToInfo: () -> Unit
 ){
-    val coinsViewModel:CoinsViewModel = viewModel(
-        factory = AppViewModelProvider.Factory
-    )
-
     Scaffold(
         topBar = {
             TopBar(
@@ -44,41 +42,30 @@ fun CryptoCoinsApp(
         }
     )
     { it ->
-        if (coinsViewModel.isShowingMain) {
-            when (coinsViewModel.coinsUIState) {
-                is CoinsState.Success -> {
-                    CoinsList(
-                        coinsList = (coinsViewModel.coinsUIState as CoinsState.Success).coinsList,
-                        contentPadding = it,
-                        onCardClick = { coin: CoinModel ->
-                            coinsViewModel.updateCurrentCoin(coin = coin)
-                            coinsViewModel.onCardClicked()
-                        }
-                    )
-                }
-
-                is CoinsState.Error -> {
-                    ErrorScreen(
-                        onClickTryAgain = { coinsViewModel.getCoinsList("usd") }
-                    )
-                }
-
-                is CoinsState.Loading -> {
-
-                }
+        when (coinsViewModel.coinsUIState) {
+            is CoinsState.Success -> {
+                CoinsList(
+                    coinsList = (coinsViewModel.coinsUIState as CoinsState.Success).coinsList,
+                    contentPadding = it,
+                    onCardClick = { coin: CoinModel ->
+                        coinsViewModel.updateCurrentCoin(coin = coin)
+                        coinsViewModel.onCardClicked()
+                        navigateToInfo()
+                    }
+                )
             }
-        }else{
-            coinsViewModel.currentCoin.id?.let { id ->
-                coinsViewModel.currentCoin.imageUrl?.let { it1 ->
-                    CoinInfo(
-                        id = id,
-                        imageUrl = it1
-                    )
-                }
+
+            is CoinsState.Error -> {
+                ErrorScreen(
+                    onClickTryAgain = { coinsViewModel.getCoinsList("usd") }
+                )
+            }
+
+            is CoinsState.Loading -> {
+
             }
         }
     }
-
 }
 
 
@@ -97,7 +84,7 @@ fun CoinsList(
             CoinCard(
                 coin = it,
                 modifier = Modifier.padding(3.dp),
-                onCardClick = {
+                onCardClick = { coin ->
                     onCardClick(coin)
                 }
             )
@@ -112,13 +99,13 @@ fun CoinsList(
 fun CoinCard(
     modifier: Modifier = Modifier,
     coin:CoinModel,
-    onCardClick:()->Unit
+    onCardClick:(CoinModel)->Unit
 ){
     Card(modifier = modifier
         .fillMaxWidth()
         .height(56.dp),
         onClick = {
-            onCardClick()
+            onCardClick(coin)
         }
     ) {
         Row(modifier = Modifier.padding(6.dp)) {
@@ -165,21 +152,4 @@ fun CoinCard(
     }
 }
 
-val coin = CoinModel(
-    imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-    name = "Bitcoin",
-    symbol = "BTC",
-    currentPrice = 28000.0,
-    priceChangePercentage24h = -0.7,
-    id = null
-)
-
-@Preview
-@Composable
-fun cardPreview(){
-    CoinCard(
-        coin = coin,
-        onCardClick = {}
-    )
-}
 

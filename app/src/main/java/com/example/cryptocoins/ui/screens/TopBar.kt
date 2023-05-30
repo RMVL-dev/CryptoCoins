@@ -1,6 +1,7 @@
 package com.example.cryptocoins.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.cryptocoins.R
 import com.example.cryptocoins.ui.viewmodels.CoinsViewModel
+import kotlinx.coroutines.coroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,5 +76,6 @@ fun TopBar(
         }
     }
 }
+
 
 

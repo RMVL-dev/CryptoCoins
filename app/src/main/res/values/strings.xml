@@ -5,4 +5,5 @@
     <string name="try_again">Попробовать</string>
     <string name="list_crypto_coins">Список криптовалют</string>
     <string name="desription">Описание</string>
+    <string name="back_button">back button</string>
 </resources>
